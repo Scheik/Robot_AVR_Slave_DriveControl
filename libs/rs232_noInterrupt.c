@@ -22,6 +22,7 @@
 //volatile uint8_t UART_RxCount = 0;											// Zählt empfangene Zeichen im UART- Ringpuffer
 
 
+// Empfangen von Daten via Interrupt wird hier nicht benötigt
 /*************************************************************************
 Funktion:	ISR(USART_RXC_vect)
 Zweck:		Interruptroutine RX

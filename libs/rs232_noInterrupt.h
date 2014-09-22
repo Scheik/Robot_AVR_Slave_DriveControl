@@ -34,7 +34,7 @@ extern int uart_putc (unsigned char c);										// Funktion in RS232.c zum Send
 extern void uart_puts (char *s);											// Funktion in RS232.c zum Senden von Strings
 extern void uart_puts_p (const char *progmem_s );							// Funktion in RS232.c zum Senden von Strings aus dem Flash-Memory
 extern void uart_puti (const int val);										// Funktion in RS232.c zum Senden von Zahlen
-extern uint8_t uart_getc(void);
+extern uint8_t uart_getc(void);												// Funktion in RS232.c zum Empfangen eines Zeichens
 
 
 #endif /* RS232_NOINTERRUPT_H_ */

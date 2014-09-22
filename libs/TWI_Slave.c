@@ -10,6 +10,11 @@
 #include <avr/interrupt.h>													// dient zur Behandlung der Interrupts
 #include "TWI_Slave.h"
 
+// Globale Variablen, die vom Hauptprogramm genutzt werden
+volatile uint8_t i2cdata[i2c_buffer_size];									// Der Buffer, in dem die Daten gespeichert werden. Aus Sicht des Masters läuft der Zugrif auf den Buffer genau wie bei einem I2C-EEPROm ab. Für den Slave ist es eine globale Variable
+volatile uint8_t buffer_adr;												// "Adressregister" für den Buffer
+//volatile uint8_t TWI_SR_MSG_Flag;										//MSG-Flag zeigt an (=1) wenn daten als Slave-Receiver empfangen wurden, gesetzt durch TW_SR_STOP: 0xA0 STOP empfangen
+
 
 // Function init_twi_slave
 void init_twi_slave(uint8_t adr)											// Initaliserung des TWI-Inteface. Muss zu Beginn aufgerufen werden, sowie bei einem Wechsel der Slave Adresse. Parameter adr = gewünschte Slave-Adresse
