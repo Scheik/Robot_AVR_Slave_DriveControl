@@ -3,21 +3,17 @@
  *
  * Created:		31.05.2014 12:47:52
  * Author:		Scheik
- * Description:	C-Source für Headerfile twislave.h
+ * Description:	C-Source fï¿½r Headerfile twislave.h
  */
 
-#include <util/twi.h> 														// enthält z.B. die Bezeichnungen für die Statuscodes in TWSR
+#include <util/twi.h> 														// enthï¿½lt z.B. die Bezeichnungen fï¿½r die Statuscodes in TWSR
 #include <avr/interrupt.h>													// dient zur Behandlung der Interrupts
 #include "TWI_Slave.h"
 
-// Globale Variablen, die vom Hauptprogramm genutzt werden
-volatile uint8_t i2cdata[i2c_buffer_size];									// Der Buffer, in dem die Daten gespeichert werden. Aus Sicht des Masters läuft der Zugrif auf den Buffer genau wie bei einem I2C-EEPROm ab. Für den Slave ist es eine globale Variable
-volatile uint8_t buffer_adr;												// "Adressregister" für den Buffer
-//volatile uint8_t TWI_SR_MSG_Flag;										//MSG-Flag zeigt an (=1) wenn daten als Slave-Receiver empfangen wurden, gesetzt durch TW_SR_STOP: 0xA0 STOP empfangen
 
 
 // Function init_twi_slave
-void init_twi_slave(uint8_t adr)											// Initaliserung des TWI-Inteface. Muss zu Beginn aufgerufen werden, sowie bei einem Wechsel der Slave Adresse. Parameter adr = gewünschte Slave-Adresse
+void init_twi_slave(uint8_t adr)											// Initaliserung des TWI-Inteface. Muss zu Beginn aufgerufen werden, sowie bei einem Wechsel der Slave Adresse. Parameter adr = gewï¿½nschte Slave-Adresse
 {
     TWAR= adr; //Adresse setzen
 	TWCR &= ~(1<<TWSTA)|(1<<TWSTO);
@@ -26,15 +22,15 @@ void init_twi_slave(uint8_t adr)											// Initaliserung des TWI-Inteface. Mu
 } //End Function init_twi_slave
 
 
-// ISR Routine für TWI Interrupts
+// ISR Routine fï¿½r TWI Interrupts
 ISR (TWI_vect)
 {
 uint8_t data=0;
-	switch (TW_STATUS) 														//TWI-Statusregister prüfen und nötige Aktion bestimmen
+	switch (TW_STATUS) 														//TWI-Statusregister prï¿½fen und nï¿½tige Aktion bestimmen
 	{
 		// SLAVE RECEIVER
 		case TW_SR_SLA_ACK: 												// 0x60 Slave Receiver, Slave wurde adressiert
-			TWCR_ACK; 														// nächstes Datenbyte empfangen, ACK danach senden
+			TWCR_ACK; 														// nï¿½chstes Datenbyte empfangen, ACK danach senden
 			buffer_adr=0xFF; 												// Bufferposition ist undefiniert
 			break;
 		case TW_SR_ARB_LOST_SLA_ACK:
@@ -50,7 +46,7 @@ uint8_t data=0;
 			data=TWDR; 														// Empfangene Daten auslesen
 			if (buffer_adr == 0xFF) 										// erster Zugriff, Bufferposition setzen
 				{
-				if(data<i2c_buffer_size+1)									// Kontrolle ob gewünschte Adresse im erlaubten bereich
+				if(data<i2c_buffer_size+1)									// Kontrolle ob gewï¿½nschte Adresse im erlaubten bereich
 					{
 						buffer_adr= data; 									// Bufferposition wie adressiert setzen
 					}
@@ -58,7 +54,7 @@ uint8_t data=0;
 					{
 						buffer_adr=0; 										// Adresse auf Null setzen. Ist das sinnvoll? TO DO!
 					}
-				TWCR_ACK;													// nächstes Datenbyte empfangen, ACK danach, um nächstes Byte anzufordern
+				TWCR_ACK;													// nï¿½chstes Datenbyte empfangen, ACK danach, um nï¿½chstes Byte anzufordern
 				}
 			else 															// weiterer Zugriff, nachdem die Position im Buffer gesetzt wurde. NUn die Daten empfangen und speichern
 				{
@@ -67,7 +63,7 @@ uint8_t data=0;
 					{
 							i2cdata[buffer_adr]=data; 						// aten in Buffer schreibe
 					}
-				buffer_adr++; 												// Buffer-Adresse weiterzählen für nächsten Schreibzugriff
+				buffer_adr++; 												// Buffer-Adresse weiterzï¿½hlen fï¿½r nï¿½chsten Schreibzugriff
 				TWCR_ACK;
 				}
 			break;
@@ -85,7 +81,7 @@ uint8_t data=0;
 			//TWI_SR_MSG_Flag=1;
 			break;
 		//SLAVE TRANSMITTER
-		case TW_ST_SLA_ACK: 												// 0xA8 Slave wurde im Lesemodus adressiert und hat ein ACK zurückgegeben.
+		case TW_ST_SLA_ACK: 												// 0xA8 Slave wurde im Lesemodus adressiert und hat ein ACK zurï¿½ckgegeben.
 
 		case TW_ST_DATA_ACK: 												// 0xB8 Slave Transmitter, Daten wurden angefordert
 			if (buffer_adr == 0xFF) 										// zuvor keine Leseadresse angegeben!
@@ -96,7 +92,7 @@ uint8_t data=0;
 			if(buffer_adr<i2c_buffer_size+1)
 				{
 				TWDR = i2cdata[buffer_adr]; 								// Datenbyte senden
-				buffer_adr++; 												// bufferadresse für nächstes Byte weiterzählen
+				buffer_adr++; 												// bufferadresse fï¿½r nï¿½chstes Byte weiterzï¿½hlen
 				}
 			else
 				{
