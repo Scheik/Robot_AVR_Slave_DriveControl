@@ -26,9 +26,10 @@
 /* Funktionen und Variablen in rs232.c */
 /***************************************/
 //extern volatile uint8_t UART_MSG_FLAG;										// Variable UART_MSG_FLAG=1, wenn letzes empfangenes Zeichen ein Zeilenumbruch war oder UART_Puffer voll ist
-//xtern volatile unsigned char UART_RXBuffer[UART_BUFFER_SIZE];				// Ringpuffer- Array für empfangene	UART Daten (UART-Puffer)
+//extern volatile unsigned char UART_RXBuffer[UART_BUFFER_SIZE];				// Ringpuffer- Array für empfangene	UART Daten (UART-Puffer)
 //extern volatile unsigned char UART_RxCount ;								// Zählervariable für UART-Puffer
 
+// functions & procedures delaration
 extern void init_uart();													// Funktion in RS232.c zum Initalisieren und Aktivieren des UART mit oben eingestellten Werten
 extern int uart_putc (unsigned char c);										// Funktion in RS232.c zum Senden von Bytes
 extern void uart_puts (char *s);											// Funktion in RS232.c zum Senden von Strings

@@ -1,7 +1,9 @@
 #include "TWI_Slave.h"								// Header f�r TWI_Slave Funktionsbibliothek
+#include "md49_lib.h"
 #include "global.h"									// globale Deklarationen
 #include "rs232_noInterrupt.h"						// Headerdatei für UART Funktionen
 
+// variables definition & re-declaration
 volatile char statusRegulator;						// stores state of regulator 0=off 1=on
 volatile char statusTimeout;						// stores state of timeout 0=off 1=on
 volatile char currentMode;							// stores mode recently set
