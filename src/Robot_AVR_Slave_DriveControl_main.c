@@ -19,6 +19,7 @@
 #include "TWI_Slave.h"								// Header f�r TWI_Slave Funktionsbibliothek
 #include "rs232_noInterrupt.h"						// Headerdatei für UART Funktionen
 #include "md49_lib.h"								// Headerdatei für MD49 Funktionen
+#include <avr/wdt.h>
 
 #define SLAVE_ADRESSE 0x50 							// Die eigene Slave-Adresse
 
@@ -28,10 +29,12 @@ int main(void) {
 	init_twi_slave(SLAVE_ADRESSE);					// Init AVR as Slave with Adresse SLAVE_ADRESSE
 	sei();											// Interrupts enabled
 	resetEncoders();								// Reset the encoder values to 0
+	wdt_enable(WDTO_250MS);
 	while (1)										// mainloop
 	{
 		setMD49commands();							// set commands on MD49 corresponding to values stored in i2cdata(0-14)
 		getMD49data();								// get all data from MD49 and save to corresponding values in i2cdata(15-32)
+		wdt_reset();
 	} //end.mainloop
 } //end.mainfunction
 
